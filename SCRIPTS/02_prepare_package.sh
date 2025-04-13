@@ -140,7 +140,7 @@ rm -rf feeds/packages/net/{alist,zerotier,xray-core,v2ray-core,v2ray-geodata,sin
 ### 获取额外的 LuCI 应用、主题和依赖 ###
 # 更换 Nodejs 版本
 rm -rf ./feeds/packages/lang/node
-rm -rf ./package/new/feeds_packages_lang_node-prebuilt
+rm -rf ./package/feeds_packages_lang_node-prebuilt
 cp -rf ../openwrt-package/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
