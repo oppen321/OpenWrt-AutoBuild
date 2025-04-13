@@ -55,12 +55,11 @@ jobs:
       run: |
         cp -r ../SCRIPTS/. ./
         /bin/bash 02_prepare_package.sh
-        /bin/bash 02_target_only.sh
         /bin/bash 04_remove_upx.sh
     - name: QTMDFW4
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp -rf ../SEED/X86/config.seed .config
+        cp -rf ../SCRIPTS/X86/config.seed .config
     - name: Convert Translation
       working-directory: ${{ github.workspace }}/openwrt
       run: |
@@ -99,8 +98,7 @@ jobs:
       id: compileopenwrt
       continue-on-error: true
       run: |
-        #echo | make kernel_oldconfig -j$(($(nproc) + 1)) 
-        make -j$(($(nproc) + 1)) package/network/utils/nftables/refresh V=s
+        make -j$(($(nproc) + 1))
         IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
         echo $?
     - name: If Error
@@ -122,8 +120,8 @@ jobs:
         gzip --best *.img
         ls -Ahl
         sha256sum openwrt*x86* | tee X86-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
-        zip X86-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *ext4-combined*
-        zip X86-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *squashfs-combined*
+        zip X86-VIP-定制款-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *ext4-combined*
+        zip X86-VIP-定制款-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *squashfs-combined*
         ls -Ahl
     - name: Create release
       id: create_release
