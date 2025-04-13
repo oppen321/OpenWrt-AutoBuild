@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# 这个脚本的作用是从不同的仓库中克隆openwrt相关的代码，并进行一些处理
+
+# 定义一个函数，用来克隆指定的仓库和分支
+clone_repo() {
+  # 参数1是仓库地址，参数2是分支名，参数3是目标目录
+  repo_url=$1
+  branch_name=$2
+  target_dir=$3
+  # 克隆仓库到目标目录，并指定分支名和深度为1
+  git clone -b $branch_name --depth 1 $repo_url $target_dir
+}
+
+# 定义一些变量，存储仓库地址和分支名
+openwrt_repo="https://github.com/openwrt/openwrt.git"
+immortalwrt_repo="https://github.com/immortalwrt/immortalwrt.git"
+openwrt_patch="https://github.com/oppen321/OpenWrt-Patch"
+openwrt_add_repo="https://github.com/oppen321/openwrt-package"
+
+
+# 开始克隆仓库，并行执行
+clone_repo $openwrt_repo v24.10.0 openwrt_snap &
+clone_repo $immortalwrt_repo v24.10.0 immortalwrt_snap &
+clone_repo $openwrt_patch kernel-6.6
+clone_repo $openwrt_add_repo v24.10
+clone_repo $openwrt_add_repo helloworld
+# 等待所有后台任务完成
+wait
