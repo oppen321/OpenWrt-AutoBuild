@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# distfeeds.conf
+mkdir -p files/etc/opkg
+cat > files/etc/opkg/distfeeds.conf <<EOF
+src/gz openwrt_base https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/base
+src/gz openwrt_luci https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/luci
+src/gz openwrt_packages https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/packages
+src/gz openwrt_routing https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/routing
+src/gz openwrt_telephony https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/telephony
+EOF
+
 mkdir -p files/usr/bin
 
 AGH_CORE=$(curl -sL https://api.github.com/repos/AdguardTeam/AdGuardHome/releases/latest | grep /AdGuardHome_linux_amd64 | awk -F '"' '{print $4}')
