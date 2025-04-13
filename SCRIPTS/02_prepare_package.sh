@@ -127,8 +127,8 @@ pushd feeds/luci
 popd
 
 ### ADD PKG 部分 ###
-cp -rf ../openwrt-package ./package/new
-cp -rf ../helloworld ./package/new
+cp -rf ../openwrt-package ./package
+cp -rf ../helloworld ./package
 rm -rf feeds/packages/lang/golang
 rm -rf feeds/packages/utils/coremark
 rm -rf feeds/luci/applications/luci-app-alist
