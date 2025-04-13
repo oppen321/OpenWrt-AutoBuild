@@ -17,7 +17,7 @@ openwrt_repo="https://github.com/openwrt/openwrt.git"
 immortalwrt_repo="https://github.com/immortalwrt/immortalwrt.git"
 openwrt_patch="https://github.com/oppen321/OpenWrt-Patch"
 openwrt_add_repo="https://github.com/oppen321/openwrt-package"
-
+dockerman_repo="https://github.com/oppen321/luci-app-dockerman"
 
 # 开始克隆仓库，并行执行
 clone_repo $openwrt_repo v24.10.0 openwrt_snap &
@@ -25,5 +25,7 @@ clone_repo $immortalwrt_repo v24.10.0 immortalwrt_snap &
 clone_repo $openwrt_patch kernel-6.6
 clone_repo $openwrt_add_repo v24.10
 clone_repo $openwrt_add_repo helloworld
+clone_repo $dockerman_repo main
+
 # 等待所有后台任务完成
 wait
