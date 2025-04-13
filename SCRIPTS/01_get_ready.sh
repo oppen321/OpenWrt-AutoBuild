@@ -23,7 +23,7 @@ dockerman_repo="https://github.com/oppen321/luci-app-dockerman"
 clone_repo $openwrt_repo v24.10.0 openwrt &
 clone_repo $immortalwrt_repo v24.10.0 immortalwrt &
 clone_repo $openwrt_patch kernel-6.6 OpenWrt-Patch
-clone_repo $openwrt_add_repo v24.10 extraipk
+clone_repo $openwrt_add_repo v24.10 openwrt-package
 clone_repo $openwrt_add_repo helloworld helloworld
 clone_repo $dockerman_repo main
 
