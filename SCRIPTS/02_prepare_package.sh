@@ -127,7 +127,8 @@ pushd feeds/luci
 popd
 
 ### ADD PKG 部分 ###
-cp -rf ../OpenWrt-Add ./package/new
+cp -rf ../openwrt-package ./package/new
+cp -rf ../helloworld ./package/new
 rm -rf feeds/packages/lang/golang
 rm -rf feeds/packages/utils/coremark
 rm -rf feeds/luci/applications/luci-app-alist
@@ -137,10 +138,10 @@ rm -rf feeds/packages/net/{alist,zerotier,xray-core,v2ray-core,v2ray-geodata,sin
 # 更换 Nodejs 版本
 rm -rf ./feeds/packages/lang/node
 rm -rf ./package/new/feeds_packages_lang_node-prebuilt
-cp -rf ../OpenWrt-Add/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
+cp -rf ../openwrt-package/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
-cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
+cp -rf ../openwrt-package/packages_lang_golang ./feeds/packages/lang/golang
 
 # Docker
 rm -rf feeds/luci/applications/luci-app-dockerman
