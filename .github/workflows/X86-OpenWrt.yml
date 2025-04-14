@@ -56,7 +56,6 @@ jobs:
         cp -r ../SCRIPTS/. ./
         /bin/bash 02_prepare_package.sh
         /bin/bash 03_custom_settings_x86.sh
-        /bin/bash 04_remove_upx.sh
     - name: QTMDFW4
       working-directory: ${{ github.workspace }}/openwrt
       run: |
@@ -64,16 +63,11 @@ jobs:
     - name: Convert Translation
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        /bin/bash 05_convert_translation.sh
+        /bin/bash 04_convert_translation.sh
     - name: Add ACL
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        /bin/bash 06_create_acl_for_luci.sh -a
-    - name: Fix Permissions
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        sudo -E chmod -R 755 ./07_fix_permissions.sh
-        /bin/bash 07_fix_permissions.sh
+        /bin/bash 05_create_acl_for_luci.sh -a
     - name: Make Config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
