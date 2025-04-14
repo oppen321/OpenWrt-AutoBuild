@@ -19,6 +19,11 @@ openwrt_patch="https://github.com/oppen321/OpenWrt-Patch"
 openwrt_add_repo="https://github.com/oppen321/openwrt-package"
 dockerman_repo="https://github.com/oppen321/luci-app-dockerman"
 golang_repo="https://github.com/sbwml/packages_lang_golang"
+node_repo="https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
+nginx_repo="https://github.com/oppen321/feeds_packages_net_nginx"
+default_settings="https://github.com/oppen321/default-settings"
+miniupnpd_repo="https://git.kejizero.online/zhao/miniupnpd"
+upnp_repo="https://git.kejizero.online/zhao/luci-app-upnp"
 
 # 开始克隆仓库，并行执行
 clone_repo $openwrt_repo v24.10.0 openwrt &
@@ -26,8 +31,13 @@ clone_repo $immortalwrt_repo v24.10.0 immortalwrt &
 clone_repo $openwrt_patch kernel-6.6 OpenWrt-Patch
 clone_repo $openwrt_add_repo v24.10 openwrt-package
 clone_repo $openwrt_add_repo helloworld helloworld
-clone_repo $dockerman_repo main dockerman
+clone_repo $dockerman_repo main luci-app-dockerman
 clone_repo $golang_repo 24.x golang
+clone_repo $nginx_repo openwrt-24.10 nginx
+clone_repo $node_repo packages-24.10 node
+clone_repo $default_settings openwrt-24.10 default_settings
+clone_repo $miniupnpd_repo v2.3.7 miniupnpd
+clone_repo $upnp_repo master luci-app-upnp
 
 # 等待所有后台任务完成
 wait
