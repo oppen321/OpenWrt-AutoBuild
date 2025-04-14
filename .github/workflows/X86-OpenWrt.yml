@@ -97,9 +97,7 @@ jobs:
       id: compileopenwrt
       continue-on-error: true
       run: |
-        make -j$(($(nproc) + 1))
-        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
-        echo $?
+        make -j$(nproc)
     - name: If Error
       working-directory: ${{ github.workspace }}/openwrt
       if: steps.compileopenwrt.outcome == 'failure'
