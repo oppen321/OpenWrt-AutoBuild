@@ -5,9 +5,6 @@ clear
 # 使用 O2 级别的优化
 sed -i 's/Os/O2/g' include/target.mk
 
-# 设置 feeds 
-sed -i 's|https://git.openwrt.org/feed/|https://github.com/openwrt/|g' feeds.conf.default
-
 # 更新 Feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
