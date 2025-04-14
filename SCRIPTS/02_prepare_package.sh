@@ -201,6 +201,13 @@ EOF
 sed -i 's/iStoreOS/ZeroWrt/' package/openwrt-package/istoreos-files/files/etc/board.d/10_system
 sed -i 's/192.168.100.1/10.0.0.1/' package/openwrt-package/istoreos-files/Makefile
 
+# kmod
+curl -s https://downloads.openwrt.org/releases/24.10.0/targets/x86/64/openwrt-24.10.0-x86-64.manifest \
+| grep "^kernel -" \
+| awk '{print $3}' \
+| sed -n 's/.*~\([a-f0-9]\+\)-r[0-9]\+/\1/p' > vermagic
+sed -i 's#grep '\''=\[ym\]'\'' \$(LINUX_DIR)/\.config\.set | LC_ALL=C sort | \$(MKHASH) md5 > \$(LINUX_DIR)/\.vermagic#cp \$(TOPDIR)/vermagic \$(LINUX_DIR)/.vermagic#g' include/kernel-defaults.mk
+
 # update feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
