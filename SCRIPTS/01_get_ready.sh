@@ -13,6 +13,8 @@ clone_repo() {
 }
 
 # 定义一些变量，存储仓库地址和分支名
+openwrt_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][4-9]/p' | sed -n 1p | sed 's/.tar.gz//g')"
+immortalwrt_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][4-9]/p' | sed -n 1p | sed 's/.tar.gz//g')"
 openwrt_repo="https://github.com/openwrt/openwrt.git"
 immortalwrt_repo="https://github.com/immortalwrt/immortalwrt.git"
 openwrt_patch="https://github.com/oppen321/OpenWrt-Patch"
@@ -30,8 +32,9 @@ containerd_repo="https://git.kejizero.online/zhao/packages_utils_containerd"
 runc_repo="https://git.kejizero.online/zhao/packages_utils_runc"
 
 # 开始克隆仓库，并行执行
-clone_repo $openwrt_repo v24.10.0 openwrt &
-clone_repo $immortalwrt_repo v24.10.0 immortalwrt &
+clone_repo $openwrt_repo $openwrt_release openwrt &
+clone_repo $immortalwrt_repo $immortalwrt_release immortalwrt &
+clone_repo $openwrt_repo openwrt-24.10 openwrt_24
 clone_repo $openwrt_patch kernel-6.6 OpenWrt-Patch
 clone_repo $openwrt_add_repo v24.10 openwrt-package
 clone_repo $openwrt_add_repo helloworld helloworld
@@ -47,3 +50,12 @@ clone_repo $runc_repo main runc
 
 # 等待所有后台任务完成
 wait
+
+# 进行一些处理
+find openwrt/package/* -maxdepth 0 ! -name 'firmware' ! -name 'kernel' ! -name 'base-files' ! -name 'Makefile' -exec rm -rf {} +
+rm -rf ./openwrt_24/package/firmware ./openwrt_snap/package/kernel ./openwrt_snap/package/base-files ./openwrt_snap/package/Makefile
+cp -rf ./openwrt_24/package/* ./openwrt/package/
+cp -rf ./openwrt_24/feeds.conf.default ./openwrt/feeds.conf.default
+
+# 退出脚本
+exit 0
