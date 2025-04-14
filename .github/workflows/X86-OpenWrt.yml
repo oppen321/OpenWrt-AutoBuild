@@ -72,7 +72,7 @@ jobs:
     - name: Fix Permissions
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        sudo -E chmod -R 755 ./08_fix_permissions.sh
+        sudo -E chmod -R 755 ./07_fix_permissions.sh
         /bin/bash 07_fix_permissions.sh
     - name: Make Config
       working-directory: ${{ github.workspace }}/openwrt
