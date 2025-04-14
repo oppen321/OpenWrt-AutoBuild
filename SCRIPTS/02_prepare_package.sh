@@ -139,7 +139,6 @@ rm -rf feeds/packages/net/{alist,zerotier,xray-core,v2ray-core,v2ray-geodata,sin
 
 ### 获取额外的 LuCI 应用、主题和依赖 ###
 # 更换 golang 版本
-rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
 
 # Docker
@@ -197,8 +196,6 @@ function addLinks() {
 document.addEventListener("DOMContentLoaded", addLinks);
 </script>
 EOF
-
-sed -i "s|_('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || '')|_('Firmware Version'), 'ZeroWrt-VIP-R25.04.6-K6.6.83'|" feeds/luci/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
 
 # istoreos
 sed -i 's/iStoreOS/ZeroWrt/' package/openwrt-package/istoreos-files/files/etc/board.d/10_system
