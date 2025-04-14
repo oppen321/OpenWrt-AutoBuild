@@ -1,5 +1,6 @@
 #!/bin/bash
-# SPDX-License-Identifier: GPL-2.0-only
+# [CTCGFW]immortalwrt
+# Use it under GPLv3, please.
 # --------------------------------------------------------
 # Convert translation files zh-cn to zh_Hans
 # The script is still in testing, welcome to report bugs.
@@ -47,3 +48,4 @@ do
 	[ -n "$(grep "zh-cn" "$f")" ] && sed -i "s/zh-cn/zh_Hans/g" "$f"
 	[ -n "$(grep "zh_Hans.lmo" "$f")" ] && sed -i "s/zh_Hans.lmo/zh-cn.lmo/g" "$f"
 done
+exit 0
