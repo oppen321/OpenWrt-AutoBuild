@@ -24,6 +24,10 @@ nginx_repo="https://github.com/oppen321/feeds_packages_net_nginx"
 default_settings="https://github.com/oppen321/default-settings"
 miniupnpd_repo="https://git.kejizero.online/zhao/miniupnpd"
 upnp_repo="https://git.kejizero.online/zhao/luci-app-upnp"
+docker_repo="https://git.kejizero.online/zhao/packages_utils_docker"
+dockerd_repo="https://git.kejizero.online/zhao/packages_utils_dockerd"
+containerd_repo="https://git.kejizero.online/zhao/packages_utils_containerd"
+runc_repo="https://git.kejizero.online/zhao/packages_utils_runc"
 
 # 开始克隆仓库，并行执行
 clone_repo $openwrt_repo v24.10.0 openwrt &
@@ -36,8 +40,10 @@ clone_repo $golang_repo 24.x golang
 clone_repo $nginx_repo openwrt-24.10 nginx
 clone_repo $node_repo packages-24.10 node
 clone_repo $default_settings openwrt-24.10 default_settings
-clone_repo $miniupnpd_repo v2.3.7 miniupnpd
-clone_repo $upnp_repo master luci-app-upnp
+clone_repo $docker_repo main docker
+clone_repo $dockerd_repo master dockerd
+clone_repo $containerd_repo main containerd
+clone_repo $runc_repo main runc
 
 # 等待所有后台任务完成
 wait
