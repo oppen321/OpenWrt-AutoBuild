@@ -25,7 +25,7 @@ clone_repo $immortalwrt_repo v24.10.0 immortalwrt &
 clone_repo $openwrt_patch kernel-6.6 OpenWrt-Patch
 clone_repo $openwrt_add_repo v24.10 openwrt-package
 clone_repo $openwrt_add_repo helloworld helloworld
-clone_repo $dockerman_repo main
+clone_repo $dockerman_repo main dockerman
 
 # 等待所有后台任务完成
 wait
