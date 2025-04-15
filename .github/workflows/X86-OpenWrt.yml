@@ -21,7 +21,7 @@ jobs:
     - name: Free disk space
       uses: sbwml/actions@free-disk
       with:
-        build-mount-path: /builder
+        build-mount-path: ${{ github.workspace }}
 
     - name: Build System Setup
       uses: sbwml/actions@openwrt-build-setup
