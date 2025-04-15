@@ -99,6 +99,11 @@ jobs:
       with:
         mixkey: ${{ env.TARGET_DEVICE_ARCH }}
         prefix: ${{ github.workspace }}/openwrt
+
+    - name: Make Download
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        cat vermagic
         
     - name: Make Download
       working-directory: ${{ github.workspace }}/openwrt
