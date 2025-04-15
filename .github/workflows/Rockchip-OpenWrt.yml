@@ -125,15 +125,34 @@ jobs:
       run: |
         rm -rf ./artifact/
         mkdir -p ./artifact/
-        mv openwrt/bin/targets/x86/64/*combined-efi.img* ./artifact/
+        mv openwrt/bin/targets/rockchip/armv8/*sysupgrade.img* ./artifact/
         cd ./artifact/
         ls -Ahl
         gzip -d *.gz && exit 0
         gzip --best *.img
         ls -Ahl
-        sha256sum zerowrt*x86* | tee Rockchip-ZeroWRT-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
-        zip Rockchip-ZeroWRT-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *ext4-combined*
-        zip Rockchip-ZeroWRT-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *squashfs-combined*
+        sha256sum zerowrt*m68s* | tee M68s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*m68s-plus* | tee M68s-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r66s* | tee R66s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r68s* | tee R68s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*station-p2* | tee Station-p2-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*neo3* | tee Neo3-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r2c* | tee R2c-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r2c-plus* | tee R2c-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r3s* | tee R3s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r4s* | tee R4s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r4se* | tee R4se-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r5c* | tee R5c-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r6c* | tee R6c-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*r6s* | tee R6s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*sige3* | tee Singe3-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*sige7* | tee Singe7-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*rock-5a* | tee Rock-5a-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*rock-5b* | tee Rock-5b-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*orangepi-5* | tee Orangepi-5-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        sha256sum zerowrt*orangepi-5-plus* | tee Orangepi-5-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
+        zip R4S-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R4S-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
         ls -Ahl
         
     - name: Create release
