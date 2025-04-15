@@ -61,14 +61,15 @@ mkdir -p files/root
 curl -so files/root/.bash_profile https://git.kejizero.online/zhao/files/raw/branch/main/root/.bash_profile
 curl -so files/root/.bashrc https://git.kejizero.online/zhao/files/raw/branch/main/root/.bashrc
 
-# 更换为 Lean Uboot 以及 Target
+# 更换为 ImmortalWrt Uboot 以及 Target
 rm -rf target/linux/rockchip
-cp -rf ../lede/target/linux/rockchip ./target/linux/rockchip
+cp -rf ../immortalwrt/target/linux/rockchip target/linux/rockchip
 cp -rf ../OpenWrt-Patch/rockchip/* ./target/linux/rockchip/patches-6.6/
 rm -rf package/boot/{rkbin,uboot-rockchip,arm-trusted-firmware-rockchip}
-cp -rf ../lede/package/boot/uboot-rockchip package/boot/uboot-rockchip
-cp -rf ../lede/package/boot/arm-trusted-firmware-rockchip package/boot/arm-trusted-firmware-rockchip
+cp -rf ../immortalwrt/package/boot/uboot-rockchip package/boot/uboot-rockchip
+cp -rf ../immortalwrt/package/boot/arm-trusted-firmware-rockchip package/boot/arm-trusted-firmware-rockchip
 sed -i '/REQUIRE_IMAGE_METADATA/d' target/linux/rockchip/armv8/base-files/lib/upgrade/platform.sh
+
 
 # 修改默认ip
 sed -i "s/192.168.1.1/10.0.0.1/g" package/base-files/files/bin/config_generate
