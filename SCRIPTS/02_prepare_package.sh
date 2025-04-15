@@ -86,9 +86,6 @@ sed -i "s/192.168.1.1/10.0.0.1/g" package/base-files/files/bin/config_generate
 # 修改名称
 sed -i 's/OpenWrt/ZeroWrt/' package/base-files/files/bin/config_generate
 
-# 默认设置
-git clone --depth=1 -b openwrt-24.10 https://github.com/oppen321/default-settings package/default-settings
-
 # 加载补丁
 cp -rf ../OpenWrt-Patch ./OpenWrt-Patch
 
