@@ -30,9 +30,6 @@ wget https://downloads.openwrt.org/releases/${latest_version}/targets/x86/64/pro
 jq -r '.linux_kernel.vermagic' profiles.json >.vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
-# 预配置一些插件
-cp -rf ../PATCH/files ./files
-
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
 
