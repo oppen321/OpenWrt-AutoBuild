@@ -36,6 +36,7 @@ runc_repo="https://git.kejizero.online/zhao/packages_utils_runc"
 clone_repo $openwrt_repo $openwrt_release openwrt &
 clone_repo $immortalwrt_repo $immortalwrt_release immortalwrt &
 clone_repo $openwrt_repo openwrt-24.10 openwrt_24
+clone_repo $lean_repo master lede
 clone_repo $openwrt_patch kernel-6.6 OpenWrt-Patch
 clone_repo $openwrt_add_repo v24.10 openwrt-package
 clone_repo $openwrt_add_repo helloworld helloworld
