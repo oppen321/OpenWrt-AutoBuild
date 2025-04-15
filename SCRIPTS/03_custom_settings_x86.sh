@@ -31,7 +31,6 @@ curl -s https://downloads.openwrt.org/releases/24.10.1/targets/x86/64/openwrt-24
 | sed -n 's/.*~\([a-f0-9]\+\)-r[0-9]\+/\1/p' > vermagic
 sed -i 's#grep '\''=\[ym\]'\'' \$(LINUX_DIR)/\.config\.set | LC_ALL=C sort | \$(MKHASH) md5 > \$(LINUX_DIR)/\.vermagic#cp \$(TOPDIR)/vermagic \$(LINUX_DIR)/.vermagic#g' include/kernel-defaults.mk
 
-
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
 
