@@ -151,8 +151,46 @@ jobs:
         sha256sum zerowrt*rock-5b* | tee Rock-5b-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
         sha256sum zerowrt*orangepi-5* | tee Orangepi-5-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
         sha256sum zerowrt*orangepi-5-plus* | tee Orangepi-5-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
-        zip R4S-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
-        zip R4S-GC404-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip M68s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip M68s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip M68s-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip M68s-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip R66s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R66s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip R68s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R68s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs* 
+        zip Station-p2-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip Station-p2-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs* 
+        zip Neo3-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip Neo3-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs* 
+        zip R2c-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R2c-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip R2c-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R2c-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip R3s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R3s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip R4s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R4s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip R4se-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R4se-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip R5c-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R5c-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip R6c-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R6c-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip R6s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip R6s-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip Singe3-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip Singe3-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip Singe7-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip Singe7-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*ext4*
+        zip Rock-5a-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*squashfs*
+        zip Rock-5a-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*ext4*
+        zip Rock-5b-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*squashfs*
+        zip Rock-5b-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*ext4* 
+        zip Orangepi-5-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*squashfs*
+        zip Orangepi-5-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*ext4* 
+        zip Orangepi-5-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *r4s*squashfs*
+        zip Orangepi-5-plus-ZeroWrt-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *r4s*ext4*   
         ls -Ahl
         
     - name: Create release
