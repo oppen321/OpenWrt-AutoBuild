@@ -1,4 +1,4 @@
-name: X86-OpenWrt
+name: Rockchip-OpenWrt
 
 on:
 #  schedule:
