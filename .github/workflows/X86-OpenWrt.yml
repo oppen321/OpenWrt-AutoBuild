@@ -17,37 +17,24 @@ jobs:
       run: |
         echo -e "Total CPU cores\t: $(nproc)"
         cat /proc/cpuinfo | grep 'model name'
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
+        
+    - name: Free disk space
+      uses: sbwml/actions@free-disk
       with:
-        swap-size-mb: 1024
-        temp-reserve-mb: 512
-        root-reserve-mb: 4608
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-    - name: Checkout
-      uses: actions/checkout@main
-    - name: Init build dependencies
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo apt-get install -y curl
-        sudo rm -rf /etc/apt/sources.list.d
-        sudo bash -c "curl -skL https://git.kejizero.online/zhao/files/raw/branch/main/Rely/sources-24.04.list > /etc/apt/sources.list"
-        sudo apt-get update
-        sudo apt-get install -y clang-15 llvm-15 npm build-essential flex bison cmake g++ gawk gcc-multilib g++-multilib gettext git gnutls-dev libfuse-dev libncurses5-dev libssl-dev python3 python3-pip python3-ply python3-pyelftools rsync unzip zlib1g-dev file wget subversion patch upx-ucl autoconf automake curl asciidoc binutils bzip2 lib32gcc-s1 libc6-dev-i386 uglifyjs msmtp texinfo libreadline-dev libglib2.0-dev xmlto libelf-dev libtool autopoint antlr3 gperf ccache swig coreutils haveged scons libpython3-dev rename qemu-utils jq
-        sudo apt-get clean
-        sudo -E git config --global user.name 'GitHub Actions' && git config --global user.email 'noreply@github.com'
-        sudo -E git config --global core.abbrev auto
-        df -h
+        build-mount-path: /builder
+
+    - name: Build System Setup
+      uses: sbwml/actions@openwrt-build-setup
+
+    - name: Install LLVM
+      uses: sbwml/actions@install-llvm
     - name: Prepare Mixedwrt
       run: |
         sudo chown -R runner:runner /home/runner/work/OpenWrt-AutoBuild
         cp -r ./SCRIPTS/X86/. ./SCRIPTS/
         cp -r ./SCRIPTS/. ./
         /bin/bash 01_get_ready.sh
+        
     - name: Prepare Package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
@@ -55,27 +42,33 @@ jobs:
         /bin/bash 02_prepare_package.sh
         /bin/bash 03_custom_settings_x86.sh
         /bin/bash 04_remove_upx.sh
+        
     - name: QTMDFW4
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -rf ../SCRIPTS/X86/config.seed .config
+        
     - name: Convert Translation
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         /bin/bash 05_convert_translation.sh
+        
     - name: Add ACL
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         /bin/bash 06_create_acl_for_luci.sh -a
+        
     - name: Fix Permissions
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         sudo -E chmod -R 755 ./07_fix_permissions.sh
         /bin/bash 07_fix_permissions.sh
+        
     - name: Make Config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         make defconfig
+        
     - name: Get Architecture
       working-directory: ${{ github.workspace }}/openwrt
       run: |
@@ -83,21 +76,25 @@ jobs:
         echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>$GITHUB_ENV
         latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][4-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
         echo "latest_release=${latest_release}" >>$GITHUB_ENV
+        
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
         mixkey: ${{ env.TARGET_DEVICE_ARCH }}
         prefix: ${{ github.workspace }}/openwrt
+        
     - name: Make Download
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         make download -j50
+        
     - name: Compile Openwrt
       working-directory: ${{ github.workspace }}/openwrt
       id: compileopenwrt
       continue-on-error: true
       run: |
         make -j$(nproc)
+        
     - name: If Error
       working-directory: ${{ github.workspace }}/openwrt
       if: steps.compileopenwrt.outcome == 'failure'
@@ -105,6 +102,7 @@ jobs:
         cat ./.config
         echo '================================================================'
         make -j1 V=s
+        
     - name: Organize files
       id: organize
       run: |
@@ -120,6 +118,7 @@ jobs:
         zip X86-ZeroWRT-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *ext4-combined*
         zip X86-ZeroWRT-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *squashfs-combined*
         ls -Ahl
+        
     - name: Create release
       id: create_release
       uses: ncipollo/release-action@main
