@@ -17,6 +17,7 @@ openwrt_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v
 immortalwrt_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][4-9]/p' | sed -n 1p | sed 's/.tar.gz//g')"
 openwrt_repo="https://github.com/openwrt/openwrt.git"
 immortalwrt_repo="https://github.com/immortalwrt/immortalwrt.git"
+lean_repo="https://github.com/coolsnowwolf/lede"
 openwrt_patch="https://github.com/oppen321/OpenWrt-Patch"
 openwrt_add_repo="https://github.com/oppen321/openwrt-package"
 dockerman_repo="https://github.com/oppen321/luci-app-dockerman"
