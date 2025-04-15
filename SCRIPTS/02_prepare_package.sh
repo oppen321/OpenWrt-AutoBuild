@@ -70,7 +70,6 @@ cp -rf ../immortalwrt/package/boot/uboot-rockchip package/boot/uboot-rockchip
 cp -rf ../immortalwrt/package/boot/arm-trusted-firmware-rockchip package/boot/arm-trusted-firmware-rockchip
 sed -i '/REQUIRE_IMAGE_METADATA/d' target/linux/rockchip/armv8/base-files/lib/upgrade/platform.sh
 
-
 # 修改默认ip
 sed -i "s/192.168.1.1/10.0.0.1/g" package/base-files/files/bin/config_generate
 
