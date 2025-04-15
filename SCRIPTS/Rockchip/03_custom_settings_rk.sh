@@ -5,4 +5,7 @@ clear
 sed -i 's,-mcpu=generic,-march=armv8-a+crc+crypto,g' include/target.mk
 sed -i 's,kmod-r8168,kmod-r8169,g' target/linux/rockchip/image/armv8.mk
 
+find ./ -name *.orig | xargs rm -f
+find ./ -name *.rej | xargs rm -f
+
 
