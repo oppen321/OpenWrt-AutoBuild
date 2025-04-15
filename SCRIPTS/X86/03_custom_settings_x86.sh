@@ -34,6 +34,9 @@ sed -i 's#grep '\''=\[ym\]'\'' \$(LINUX_DIR)/\.config\.set | LC_ALL=C sort | \$(
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
 
+# 默认设置
+git clone --depth=1 -b openwrt-24.10 https://github.com/oppen321/default-settings package/default-settings
+
 # distfeeds.conf
 mkdir -p files/etc/opkg
 cat > files/etc/opkg/distfeeds.conf <<EOF
