@@ -63,12 +63,18 @@ curl -so files/root/.bashrc https://git.kejizero.online/zhao/files/raw/branch/ma
 
 # 更换为 ImmortalWrt Uboot 以及 Target
 rm -rf target/linux/rockchip
-cp -rf ../lede/target/linux/rockchip target/linux/rockchip
+cp -rf ../immortalwrt/target/linux/rockchip target/linux/rockchip
 cp -rf ../OpenWrt-Patch/rockchip/* ./target/linux/rockchip/patches-6.6/
 rm -rf package/boot/{rkbin,uboot-rockchip,arm-trusted-firmware-rockchip}
-cp -rf ../lede/package/boot/uboot-rockchip package/boot/uboot-rockchip
-cp -rf ../lede/package/boot/arm-trusted-firmware-rockchip package/boot/arm-trusted-firmware-rockchip
+cp -rf ../immortalwrt/package/boot/uboot-rockchip package/boot/uboot-rockchip
+cp -rf ../immortalwrt/package/boot/arm-trusted-firmware-rockchip package/boot/arm-trusted-firmware-rockchip
 sed -i '/REQUIRE_IMAGE_METADATA/d' target/linux/rockchip/armv8/base-files/lib/upgrade/platform.sh
+
+# Disable Mitigations
+sed -i 's,rootwait,rootwait mitigations=off,g' target/linux/rockchip/image/default.bootscript
+sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-efi.cfg
+sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-iso.cfg
+sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-pc.cfg
 
 # module
 curl -O https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/kernel/0001-linux-module-video.patch
