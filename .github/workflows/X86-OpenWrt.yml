@@ -33,16 +33,8 @@ jobs:
         uname -a
         echo
         
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        swap-size-mb: 1024
-        temp-reserve-mb: 512
-        root-reserve-mb: 4608
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
+    - name: Free disk space
+      uses: sbwml/actions@free-disk
 
     - name: Checkout
       uses: actions/checkout@main
