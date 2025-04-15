@@ -63,7 +63,7 @@ jobs:
     - name: QTMDFW4
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp -rf ../SCRIPTS/X86/config.seed .config
+        cp -rf ../SCRIPTS/Rockchip/config.seed .config
         
     - name: Convert Translation
       working-directory: ${{ github.workspace }}/openwrt
