@@ -9,7 +9,7 @@ find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
 
 # Vermagic
-curl -s https://downloads.openwrt.org/releases/24.10.0/targets/rockchip/armv8/openwrt-24.10.1-rockchip-armv8.manifest \
+curl -s https://downloads.immortalwrt.org/releases/24.10.0/targets/rockchip/armv8/immortalwrt-24.10.0-rockchip-armv8.manifest \
 | grep "^kernel -" \
 | awk '{print $3}' \
 | sed -n 's/.*~\([a-f0-9]\+\)-r[0-9]\+/\1/p' > vermagic
