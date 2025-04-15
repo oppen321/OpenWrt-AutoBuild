@@ -3,12 +3,12 @@
 # distfeeds.conf
 mkdir -p files/etc/opkg
 cat > files/etc/opkg/distfeeds.conf <<EOF
-src/gz openwrt_base https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/base
-src/gz openwrt_luci https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/luci
-src/gz openwrt_packages https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/packages
-src/gz openwrt_routing https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/routing
-src/gz openwrt_telephony https://mirrors.aliyun.com/openwrt/releases/24.10.0/packages/x86_64/telephony
-src/gz openwrt_core https://clone.kejizero.online/raw.githubusercontent.com/oppen321/openwrt_core/main/x86_64/v24.10.0
+src/gz openwrt_base https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/x86_64/base
+src/gz openwrt_luci https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/x86_64/luci
+src/gz openwrt_packages https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/x86_64/packages
+src/gz openwrt_routing https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/x86_64/routing
+src/gz openwrt_telephony https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/x86_64/telephony
+src/gz openwrt_core https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/targets/x86/64/kmods/6.6.86-1-af351158cfb5febf5155a3aa53785982
 EOF
 
 mkdir -p files/usr/bin
