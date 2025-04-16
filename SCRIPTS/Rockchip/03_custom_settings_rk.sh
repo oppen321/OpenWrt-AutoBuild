@@ -9,23 +9,21 @@ find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
 
 # Vermagic
-curl -s https://downloads.immortalwrt.org/releases/24.10.0/targets/rockchip/armv8/immortalwrt-24.10.0-rockchip-armv8.manifest \
+curl -s https://downloads.immortalwrt.org/releases/24.10.1/targets/rockchip/armv8/immortalwrt-24.10.1-rockchip-armv8.manifest \
 | grep "^kernel -" \
 | awk '{print $3}' \
 | sed -n 's/.*~\([a-f0-9]\+\)-r[0-9]\+/\1/p' > vermagic
 sed -i 's#grep '\''=\[ym\]'\'' \$(LINUX_DIR)/\.config\.set | LC_ALL=C sort | \$(MKHASH) md5 > \$(LINUX_DIR)/\.vermagic#cp \$(TOPDIR)/vermagic \$(LINUX_DIR)/.vermagic#g' include/kernel-defaults.mk
 
-curl -L -o include/kernel-6.6 https://raw.githubusercontent.com/immortalwrt/immortalwrt/refs/tags/v24.10.0/include/kernel-6.6
-
 # distfeeds.conf
 mkdir -p files/etc/opkg
 cat > files/etc/opkg/distfeeds.conf <<EOF
-src/gz openwrt_base https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.0/packages/aarch64_generic/base
-src/gz openwrt_luci https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.0/packages/aarch64_generic/luci
-src/gz openwrt_packages https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.0/packages/aarch64_generic/packages
-src/gz openwrt_routing https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.0/packages/aarch64_generic/routing
-src/gz openwrt_telephony https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.0/packages/aarch64_generic/telephony
-src/gz openwrt_core https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.0/targets/rockchip/armv8/kmods/6.6.73-1-f35e93bc2c89b98d107e57cdea041972
+src/gz openwrt_base https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/aarch64_generic/base
+src/gz openwrt_luci https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/aarch64_generic/luci
+src/gz openwrt_packages https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/aarch64_generic/packages
+src/gz openwrt_routing https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/aarch64_generic/routing
+src/gz openwrt_telephony https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/packages/aarch64_generic/telephony
+src/gz openwrt_core https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/24.10.1/targets/rockchip/armv8/kmods/6.6.86-1-a8e18e0ecc66cc99303d258424ec0db8
 EOF
 
 # default-settings
