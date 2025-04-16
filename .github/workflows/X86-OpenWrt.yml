@@ -131,9 +131,9 @@ jobs:
         gzip -d *.gz && exit 0
         gzip --best *.img
         ls -Ahl
-        sha256sum zerowrt*x86* | tee X86-ZeroWRT-$(date +%Y-%m-%d)-${{ env.latest_release }}.sha256sum
-        zip X86-ZeroWRT-$(date +%Y-%m-%d)-${{ env.latest_release }}-ext4.zip *ext4-combined*
-        zip X86-ZeroWRT-$(date +%Y-%m-%d)-${{ env.latest_release }}-sfs.zip *squashfs-combined*
+        sha256sum zerowrt*x86* | tee X86-ZeroWRT-VIP-${{ env.latest_release }}.sha256sum
+        zip X86-ZeroWRT-VIP-${{ env.latest_release }}-ext4.zip *ext4-combined*
+        zip X86-ZeroWRT-VIP-${{ env.latest_release }}-sfs.zip *squashfs-combined*
         ls -Ahl
         
     - name: Create release
