@@ -46,7 +46,7 @@ clone_repo $nginx_repo openwrt-24.10 nginx
 clone_repo $node_repo packages-24.10 node
 clone_repo $default_settings openwrt-24.10 default_settings
 clone_repo $docker_repo main docker
-clone_repo $dockerd_repo master dockerd
+clone_repo $dockerd_repo main dockerd
 clone_repo $containerd_repo main containerd
 clone_repo $runc_repo main runc
 
