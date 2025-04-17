@@ -122,6 +122,7 @@ cp -rf ../OpenWrt-Patch/bcmfullcone/* ./target/linux/generic/hack-6.6/
 # FW4
 mkdir -p package/network/config/firewall4/patches
 cp -f ../OpenWrt-Patch/firewall/firewall4_patches/*.patch package/network/config/firewall4/patches/
+sed -i 's|$(PROJECT_GIT)/project|https://github.com/openwrt|g' package/network/config/firewall4/Makefile
 
 # libnftnl
 mkdir -p package/libs/libnftnl/patches
