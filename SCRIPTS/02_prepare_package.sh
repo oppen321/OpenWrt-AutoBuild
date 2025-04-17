@@ -17,7 +17,7 @@ sed -i 's/;)\s*\\/; \\/' include/feeds.mk
 
 # nginx - latest version
 rm -rf feeds/packages/net/nginx
-git clone https://github.com/oppen321/feeds_packages_net_nginx feeds/packages/net/nginx -b openwrt-24.10
+cp -rf ../nginx ./feeds/packages/net/nginx
 sed -i 's/procd_set_param stdout 1/procd_set_param stdout 0/g;s/procd_set_param stderr 1/procd_set_param stderr 0/g' feeds/packages/net/nginx/files/nginx.init
 
 # nginx - ubus
@@ -76,9 +76,11 @@ sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/
 sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-iso.cfg
 sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-pc.cfg
 
-# module
-curl -O https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/kernel/0001-linux-module-video.patch
-git apply 0001-linux-module-video.patch
+# TTYD
+sed -i 's/services/system/g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+sed -i '3 a\\t\t"order": 50,' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+sed -i 's/procd_set_param stdout 1/procd_set_param stdout 0/g' feeds/packages/utils/ttyd/files/ttyd.init
+sed -i 's/procd_set_param stderr 1/procd_set_param stderr 0/g' feeds/packages/utils/ttyd/files/ttyd.init
 
 # 修改默认ip
 sed -i "s/192.168.1.1/10.0.0.1/g" package/base-files/files/bin/config_generate
@@ -86,60 +88,86 @@ sed -i "s/192.168.1.1/10.0.0.1/g" package/base-files/files/bin/config_generate
 # 修改名称
 sed -i 's/OpenWrt/ZeroWrt/' package/base-files/files/bin/config_generate
 
-# 加载补丁
-cp -rf ../OpenWrt-Patch ./OpenWrt-Patch
-
 # make olddefconfig
 wget -qO - https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/kernel/0003-include-kernel-defaults.mk.patch | patch -p1
 
-# TTYD
-sed -i 's/services/system/g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
-sed -i '3 a\\t\t"order": 50,' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
-sed -i 's/procd_set_param stdout 1/procd_set_param stdout 0/g' feeds/packages/utils/ttyd/files/ttyd.init
-sed -i 's/procd_set_param stderr 1/procd_set_param stderr 0/g' feeds/packages/utils/ttyd/files/ttyd.init
+# TCP optimizations
+cp -rf ../OpenWrt-Patch/Boost_For_Single_TCP_Flow/* ./target/linux/generic/backport-6.6/
+cp -rf ../OpenWrt-Patch/Boost_TCP_Performance_For_Many_Concurrent_Connections-bp_but_put_in_hack/* ./target/linux/generic/hack-6.6/
+cp -rf ../OpenWrt-Patch/Better_data_locality_in_networking_fast_paths-bp_but_put_in_hack/* ./target/linux/generic/hack-6.6/
+
+# UDP optimizations
+cp -rf ../OpenWrt-Patch/FQ_packet_scheduling/* ./target/linux/generic/backport-6.6/
+
+# LRNG
+cp -rf ../OpenWrt-Patch/lrng/* ./target/linux/generic/hack-6.6/
+echo '
+# CONFIG_RANDOM_DEFAULT_IMPL is not set
+CONFIG_LRNG=y
+CONFIG_LRNG_DEV_IF=y
+# CONFIG_LRNG_IRQ is not set
+CONFIG_LRNG_JENT=y
+CONFIG_LRNG_CPU=y
+# CONFIG_LRNG_SCHED is not set
+CONFIG_LRNG_SELFTEST=y
+# CONFIG_LRNG_SELFTEST_PANIC is not set
+' >>./target/linux/generic/config-6.6
+
+# module
+cp -rf ../OpenWrt-Patch/kernel/0001-linux-module-video.patch ./
+git apply 0001-linux-module-video.patch
 
 # bbr
-cp -rf OpenWrt-Patch/bbr3/* ./target/linux/generic/backport-6.6/
+cp -rf ../OpenWrt-Patch/bbr3/* ./target/linux/generic/backport-6.6/
 
 # bcmfullcone
-cp -rf OpenWrt-Patch/bcmfullcone/* ./target/linux/generic/hack-6.6/
+cp -rf ../OpenWrt-Patch/bcmfullcone/* ./target/linux/generic/hack-6.6/
 
 # FW4
 mkdir -p package/network/config/firewall4/patches
-cp -f OpenWrt-Patch/firewall/firewall4_patches/*.patch package/network/config/firewall4/patches/
+cp -f ../OpenWrt-Patch/firewall/firewall4_patches/*.patch package/network/config/firewall4/patches/
 
 # libnftnl
 mkdir -p package/libs/libnftnl/patches
-cp -f OpenWrt-Patch/firewall/libnftnl/*.patch package/libs/libnftnl/patches/
+cp -f ../OpenWrt-Patch/firewall/libnftnl/*.patch package/libs/libnftnl/patches/
 
 # nftables
 mkdir -p package/network/utils/nftables/patches
-cp -f OpenWrt-Patch/firewall/nftables/*.patch package/network/utils/nftables/patches/
+cp -f ../OpenWrt-Patch/firewall/nftables/*.patch package/network/utils/nftables/patches/
 
 # Shortcut-FE支持
-cp -rf OpenWrt-Patch/sfe/* ./target/linux/generic/hack-6.6/
+cp -rf ../OpenWrt-Patch/sfe/* ./target/linux/generic/hack-6.6/
 
 # NAT6
-patch -p1 < OpenWrt-Patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
+patch -p1 < ../OpenWrt-Patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
+
+# igc-fix
+cp -rf ../OpenWrt-Patch/igc-fix/* ./target/linux/x86/patches-6.6/
+
+# btf
+cp -rf ../OpenWrt-Patch/btf/* ./target/linux/generic/hack-6.6/
+
+# arm64 型号名称
+cp -rf ../OpenWrt-Patch/arm/* ./target/linux/generic/hack-6.6/
 
 # (Shortcut-FE,bcm-fullcone,ipv6-nat,nft-rule,natflow,fullcone6)
 pushd feeds/luci
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/firewall/luci/0001-luci-app-firewall-add-nft-fullcone-and-bcm-fullcone-.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/firewall/luci/0002-luci-app-firewall-add-shortcut-fe-option.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/firewall/luci/0003-luci-app-firewall-add-ipv6-nat-option.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/firewall/luci/0004-luci-add-firewall-add-custom-nft-rule-support.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/firewall/luci/0005-luci-app-firewall-add-natflow-offload-support.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/firewall/luci/0006-luci-app-firewall-enable-hardware-offload-only-on-de.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/firewall/luci/0007-luci-app-firewall-add-fullcone6-option-for-nftables-.patch | patch -p1
+patch -p1 < ../../../OpenWrt-Patch/firewall/luci/0001-luci-app-firewall-add-nft-fullcone-and-bcm-fullcone-.patch
+patch -p1 < ../../../OpenWrt-Patch/firewall/luci/0002-luci-app-firewall-add-shortcut-fe-option.patch
+patch -p1 < ../../../OpenWrt-Patch/firewall/luci/0003-luci-app-firewall-add-ipv6-nat-option.patch
+patch -p1 < ../../../OpenWrt-Patch/firewall/luci/0004-luci-add-firewall-add-custom-nft-rule-support.patch
+patch -p1 < ../../../OpenWrt-Patch/firewall/luci/0005-luci-app-firewall-add-natflow-offload-support.patch
+patch -p1 < ../../../OpenWrt-Patch/firewall/luci/0006-luci-app-firewall-enable-hardware-offload-only-on-de.patch
+patch -p1 < ../../../OpenWrt-Patch/firewall/luci/0007-luci-app-firewall-add-fullcone6-option-for-nftables-.patch
 popd
 
 pushd feeds/luci
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/luci/0001-luci-mod-system-add-modal-overlay-dialog-to-reboot.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/luci/0002-luci-mod-status-displays-actual-process-memory-usage.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/luci/0003-luci-mod-status-storage-index-applicable-only-to-val.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/luci/0004-luci-mod-status-firewall-disable-legacy-firewall-rul.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/luci/0005-luci-mod-system-add-refresh-interval-setting.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/luci/0006-luci-mod-system-mounts-add-docker-directory-mount-po.patch | patch -p1
+patch -p1 < ../../../OpenWrt-Patch/luci/0001-luci-mod-system-add-modal-overlay-dialog-to-reboot.patch
+patch -p1 < ../../../OpenWrt-Patch/luci/0002-luci-mod-status-displays-actual-process-memory-usage.patch
+patch -p1 < ../../../OpenWrt-Patch/luci/0003-luci-mod-status-storage-index-applicable-only-to-val.patch
+patch -p1 < ../../../OpenWrt-Patch/luci/0004-luci-add-firewall-add-custom-nft-rule-support.patch
+patch -p1 < ../../../OpenWrt-Patch/luci/0005-luci-app-firewall-add-natflow-offload-support.patch
+patch -p1 < ../../../OpenWrt-Patch/luci/0006-luci-mod-system-mounts-add-docker-directory-mount-po.patch
 popd
 
 ### ADD PKG 部分 ###
@@ -152,22 +180,22 @@ rm -rf feeds/packages/net/{alist,zerotier,xray-core,v2ray-core,v2ray-geodata,sin
 
 ### 获取额外的 LuCI 应用、主题和依赖 ###
 # 更换 golang 版本
-git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
+cp -rf ../golang ./feeds/packages/lang/golang
 
 # Docker
 rm -rf feeds/luci/applications/luci-app-dockerman
-git clone https://github.com/oppen321/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
+cp -rf ../luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 rm -rf feeds/packages/utils/{docker,dockerd,containerd,runc}
-git clone https://git.kejizero.online/zhao/packages_utils_docker feeds/packages/utils/docker
-git clone https://git.kejizero.online/zhao/packages_utils_dockerd feeds/packages/utils/dockerd
-git clone https://git.kejizero.online/zhao/packages_utils_containerd feeds/packages/utils/containerd
-git clone https://git.kejizero.online/zhao/packages_utils_runc feeds/packages/utils/runc
+cp -rf ../docker feeds/packages/utils/docker
+cp -rf ../dockerd feeds/packages/utils/dockerd
+cp -rf ../containerd feeds/packages/utils/containerd
+cp -rf ../runc feeds/packages/utils/runc
 sed -i '/cgroupfs-mount/d' feeds/packages/utils/dockerd/Config.in
 sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
 pushd feeds/packages
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/docker/0001-dockerd-fix-bridge-network.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/docker/0002-docker-add-buildkit-experimental-support.patch | patch -p1
-    curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/docker/0003-dockerd-disable-ip6tables-for-bridge-network-by-defa.patch | patch -p1
+patch -p1 < ../../../OpenWrt-Patch/docker/0001-dockerd-fix-bridge-network.patch
+patch -p1 < ../../../OpenWrt-Patch/docker/0002-docker-add-buildkit-experimental-support.patch
+patch -p1 < ../../../OpenWrt-Patch/docker/0003-dockerd-disable-ip6tables-for-bridge-network-by-defa.patch
 popd
 
 # UPnP
