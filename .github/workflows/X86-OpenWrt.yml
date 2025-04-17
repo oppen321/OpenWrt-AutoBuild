@@ -34,16 +34,16 @@ jobs:
         echo
         
     - name: Free disk space
-      uses: sbwml/actions@free-disk
+      uses: oppen321/actions@free-disk
 
     - name: Checkout
       uses: actions/checkout@main
 
     - name: Build System Setup
-      uses: sbwml/actions@openwrt-build-setup
+      uses: oppen321/actions@openwrt-build-setup
 
     - name: Install LLVM
-      uses: sbwml/actions@install-llvm
+      uses: oppen321/actions@install-llvm
       
     - name: Prepare Mixedwrt
       run: |
