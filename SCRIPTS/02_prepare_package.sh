@@ -150,6 +150,29 @@ cp -rf ../OpenWrt-Patch/btf/* ./target/linux/generic/hack-6.6/
 # arm64 型号名称
 cp -rf ../OpenWrt-Patch/arm/* ./target/linux/generic/hack-6.6/
 
+# mount cgroupv2
+pushd feeds/packages
+patch -p1 <../../../OpenWrt-Patch/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
+popd
+mkdir -p feeds/packages/utils/cgroupfs-mount/patches
+cp -rf ../OpenWrt-Patch/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -rf ../OpenWrt-Patch/pkgs/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -rf ../OpenWrt-Patch/pkgs/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+
+# ODHCPD
+mkdir -p package/network/services/odhcpd/patches
+cp -f ../OpenWrt-Patch/pkgs/odhcpd/0001-odhcpd-improve-RFC-9096-compliance.patch ./package/network/services/odhcpd/patches/0001-odhcpd-improve-RFC-9096-compliance.patch
+mkdir -p package/network/ipv6/odhcp6c/patches
+wget https://github.com/openwrt/odhcp6c/pull/75.patch -O package/network/ipv6/odhcp6c/patches/75.patch
+wget https://github.com/openwrt/odhcp6c/pull/80.patch -O package/network/ipv6/odhcp6c/patches/80.patch
+wget https://github.com/openwrt/odhcp6c/pull/82.patch -O package/network/ipv6/odhcp6c/patches/82.patch
+wget https://github.com/openwrt/odhcp6c/pull/83.patch -O package/network/ipv6/odhcp6c/patches/83.patch
+wget https://github.com/openwrt/odhcp6c/pull/84.patch -O package/network/ipv6/odhcp6c/patches/84.patch
+wget https://github.com/openwrt/odhcp6c/pull/90.patch -O package/network/ipv6/odhcp6c/patches/90.patch
+
+# fstool
+wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db76.patch | patch -p1
+
 # (Shortcut-FE,bcm-fullcone,ipv6-nat,nft-rule,natflow,fullcone6)
 pushd feeds/luci
 patch -p1 < ../../../OpenWrt-Patch/firewall/luci/0001-luci-app-firewall-add-nft-fullcone-and-bcm-fullcone-.patch
