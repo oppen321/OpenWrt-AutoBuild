@@ -95,14 +95,6 @@ cp -rf ../openwrt_main/package/network/config/firewall4 ./package/network/config
 # make olddefconfig
 wget -qO - https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/kernel/0003-include-kernel-defaults.mk.patch | patch -p1
 
-# TCP optimizations
-cp -rf ../OpenWrt-Patch/Boost_For_Single_TCP_Flow/* ./target/linux/generic/backport-6.6/
-cp -rf ../OpenWrt-Patch/Boost_TCP_Performance_For_Many_Concurrent_Connections-bp_but_put_in_hack/* ./target/linux/generic/hack-6.6/
-cp -rf ../OpenWrt-Patch/Better_data_locality_in_networking_fast_paths-bp_but_put_in_hack/* ./target/linux/generic/hack-6.6/
-
-# UDP optimizations
-cp -rf ../OpenWrt-Patch/FQ_packet_scheduling/* ./target/linux/generic/backport-6.6/
-
 # LRNG
 cp -rf ../OpenWrt-Patch/lrng/* ./target/linux/generic/hack-6.6/
 echo '
@@ -126,9 +118,6 @@ cp -rf ../OpenWrt-Patch/bbr3/* ./target/linux/generic/backport-6.6/
 
 # bcmfullcone
 cp -rf ../OpenWrt-Patch/bcmfullcone/* ./target/linux/generic/hack-6.6/
-# set nf_conntrack_expect_max for fullcone
-wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07.patch | patch -p1
-echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
 
 # FW4
 mkdir -p package/network/config/firewall4/patches
@@ -137,7 +126,6 @@ cp -f ../OpenWrt-Patch/firewall/firewall4_patches/*.patch package/network/config
 # libnftnl
 mkdir -p package/libs/libnftnl/patches
 cp -f ../OpenWrt-Patch/firewall/libnftnl/*.patch package/libs/libnftnl/patches/
-sed -i '/PKG_INSTALL:=/iPKG_FIXUP:=autoreconf' package/libs/libnftnl/Makefile
 
 # nftables
 mkdir -p package/network/utils/nftables/patches
@@ -158,28 +146,19 @@ cp -rf ../OpenWrt-Patch/btf/* ./target/linux/generic/hack-6.6/
 # arm64 型号名称
 cp -rf ../OpenWrt-Patch/arm/* ./target/linux/generic/hack-6.6/
 
-# mount cgroupv2
+# cgroupfs-mount
+# fix unmount hierarchical mount
 pushd feeds/packages
-patch -p1 <../../../OpenWrt-Patch/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
+patch -p1 < ../../../OpenWrt-Patch/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
 popd
+# mount cgroup v2 hierarchy to /sys/fs/cgroup/cgroup2
 mkdir -p feeds/packages/utils/cgroupfs-mount/patches
 cp -rf ../OpenWrt-Patch/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../OpenWrt-Patch/pkgs/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../OpenWrt-Patch/pkgs/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 
-# ODHCPD
-mkdir -p package/network/services/odhcpd/patches
-cp -f ../OpenWrt-Patch/pkgs/odhcpd/0001-odhcpd-improve-RFC-9096-compliance.patch ./package/network/services/odhcpd/patches/0001-odhcpd-improve-RFC-9096-compliance.patch
-mkdir -p package/network/ipv6/odhcp6c/patches
-wget https://github.com/openwrt/odhcp6c/pull/75.patch -O package/network/ipv6/odhcp6c/patches/75.patch
-wget https://github.com/openwrt/odhcp6c/pull/80.patch -O package/network/ipv6/odhcp6c/patches/80.patch
-wget https://github.com/openwrt/odhcp6c/pull/82.patch -O package/network/ipv6/odhcp6c/patches/82.patch
-wget https://github.com/openwrt/odhcp6c/pull/83.patch -O package/network/ipv6/odhcp6c/patches/83.patch
-wget https://github.com/openwrt/odhcp6c/pull/84.patch -O package/network/ipv6/odhcp6c/patches/84.patch
-wget https://github.com/openwrt/odhcp6c/pull/90.patch -O package/network/ipv6/odhcp6c/patches/90.patch
-
-# fstool
-wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db76.patch | patch -p1
+# procps-ng - top
+sed -i 's/enable-skill/enable-skill --disable-modern-top/g' feeds/packages/utils/procps-ng/Makefile
 
 # (Shortcut-FE,bcm-fullcone,ipv6-nat,nft-rule,natflow,fullcone6)
 pushd feeds/luci
