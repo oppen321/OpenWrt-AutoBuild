@@ -126,6 +126,9 @@ cp -rf ../OpenWrt-Patch/bbr3/* ./target/linux/generic/backport-6.6/
 
 # bcmfullcone
 cp -rf ../OpenWrt-Patch/bcmfullcone/* ./target/linux/generic/hack-6.6/
+# set nf_conntrack_expect_max for fullcone
+wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07.patch | patch -p1
+echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
 
 # FW4
 mkdir -p package/network/config/firewall4/patches
@@ -134,6 +137,7 @@ cp -f ../OpenWrt-Patch/firewall/firewall4_patches/*.patch package/network/config
 # libnftnl
 mkdir -p package/libs/libnftnl/patches
 cp -f ../OpenWrt-Patch/firewall/libnftnl/*.patch package/libs/libnftnl/patches/
+sed -i '/PKG_INSTALL:=/iPKG_FIXUP:=autoreconf' package/libs/libnftnl/Makefile
 
 # nftables
 mkdir -p package/network/utils/nftables/patches
