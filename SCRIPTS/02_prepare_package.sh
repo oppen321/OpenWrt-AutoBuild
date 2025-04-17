@@ -185,14 +185,9 @@ popd
 cp -rf ../openwrt-package ./package
 cp -rf ../helloworld ./package
 rm -rf feeds/packages/lang/golang
-rm -rf feeds/packages/lang/node
 rm -rf feeds/packages/utils/coremark
 rm -rf feeds/luci/applications/luci-app-alist
 rm -rf feeds/packages/net/{alist,zerotier,xray-core,v2ray-core,v2ray-geodata,sing-box,sms-tool}
-
-### 获取额外的 LuCI 应用、主题和依赖 ###
-# 更换 Nodejs 版本
-cp -rf ../node ./feeds/packages/lang/node
 
 # 更换 golang 版本
 cp -rf ../golang ./feeds/packages/lang/golang
