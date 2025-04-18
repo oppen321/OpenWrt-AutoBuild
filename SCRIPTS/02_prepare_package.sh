@@ -185,12 +185,16 @@ popd
 cp -rf ../openwrt-package ./package
 cp -rf ../helloworld ./package
 rm -rf feeds/packages/lang/golang
+rm -rf feeds/packages/lang/node
 rm -rf feeds/packages/utils/coremark
 rm -rf feeds/luci/applications/luci-app-alist
 rm -rf feeds/packages/net/{alist,zerotier,xray-core,v2ray-core,v2ray-geodata,sing-box,sms-tool}
 
 # 更换 golang 版本
 cp -rf ../golang ./feeds/packages/lang/golang
+
+# node - prebuilt
+git clone https://github.com/sbwml/feeds_packages_lang_node-prebuilt feeds/packages/lang/node -b packages-24.10
 
 # fstools
 rm -rf package/system/fstools
