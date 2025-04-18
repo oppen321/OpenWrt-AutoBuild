@@ -184,48 +184,48 @@ popd
 ### ADD PKG 部分 ###
 cp -rf ../openwrt-package ./package
 cp -rf ../helloworld ./package
-rm -rf feeds/packages/lang/golang
-rm -rf feeds/packages/lang/node
 rm -rf feeds/packages/utils/coremark
 rm -rf feeds/luci/applications/luci-app-alist
 rm -rf feeds/packages/net/{alist,zerotier,xray-core,v2ray-core,v2ray-geodata,sing-box,sms-tool}
 
 # 更换 golang 版本
+rm -rf feeds/packages/lang/golang
 cp -rf ../golang ./feeds/packages/lang/golang
 
 # node - prebuilt
-git clone https://github.com/sbwml/feeds_packages_lang_node-prebuilt feeds/packages/lang/node -b packages-24.10
+rm -rf feeds/packages/lang/node
+cp -rf ../node feeds/packages/lang/node
 
 # fstools
 rm -rf package/system/fstools
-git clone https://github.com/sbwml/package_system_fstools -b openwrt-24.10 package/system/fstools
+cp -rf ../fstools ./package/system/fstools
 
 # util-linux
 rm -rf package/utils/util-linux
-git clone https://github.com/sbwml/package_utils_util-linux -b openwrt-24.10 package/utils/util-linux
+cp -rf ../util-linux ./package/utils/util-linux
 
 # nghttp3
 rm -rf feeds/packages/libs/nghttp3
-git clone https://github.com/sbwml/package_libs_nghttp3 package/libs/nghttp3
+cp -rf ../nghttp3 ./package/libs/nghttp3
 
 # ngtcp2
 rm -rf feeds/packages/libs/ngtcp2
-git clone https://github.com/sbwml/package_libs_ngtcp2 package/libs/ngtcp2
+cp -rf ../ngtcp2 ./package/libs/ngtcp2
 
 # curl - fix passwall `time_pretransfer` check
 rm -rf feeds/packages/net/curl
-git clone https://github.com/sbwml/feeds_packages_net_curl feeds/packages/net/curl
+cp -rf ../curl ./feeds/packages/net/curl
 
 # odhcpd RFC-9096
 mkdir -p package/network/services/odhcpd/patches
-curl -s https://init.cooluc.com/openwrt/patch/odhcpd/001-odhcpd-RFC-9096-compliance-openwrt-24.10.patch > package/network/services/odhcpd/patches/001-odhcpd-RFC-9096-compliance.patch
+patch -p1 < ../OpenWrt-Patch/pkgs/odhcpd/001-odhcpd-RFC-9096-compliance-openwrt-24.10.patch
 pushd feeds/luci
-    curl -s https://init.cooluc.com/openwrt/patch/odhcpd/luci-mod-network-add-option-for-ipv6-max-plt-vlt.patch | patch -p1
+patch -p1 < ../../../OpenWrt-Patch/pkgs/odhcpd/luci-mod-network-add-option-for-ipv6-max-plt-vlt.patch
 popd
 
 # urngd - 2020-01-21
 rm -rf package/system/urngd
-git clone https://github.com/sbwml/package_system_urngd package/system/urngd
+cp -rf ../urngd ./package/system/urngd
 
 # zlib - 1.3
 ZLIB_VERSION=1.3.1
@@ -234,9 +234,7 @@ sed -ri "s/(PKG_VERSION:=)[^\"]*/\1$ZLIB_VERSION/;s/(PKG_HASH:=)[^\"]*/\1$ZLIB_H
 
 # rootfs files
 mkdir -p files/etc/sysctl.d
-curl -so files/etc/sysctl.d/10-default.conf https://init.cooluc.com/openwrt/files/etc/sysctl.d/10-default.conf
-curl -so files/etc/sysctl.d/15-vm-swappiness.conf https://init.cooluc.com/openwrt/files/etc/sysctl.d/15-vm-swappiness.conf
-curl -so files/etc/sysctl.d/16-udp-buffer-size.conf https://init.cooluc.com/openwrt/files/etc/sysctl.d/16-udp-buffer-size.conf
+cp -rf ../OpenWrt-Patch/files/etc/sysctl.d ./files/etc/sysctl.d
 
 # Docker
 rm -rf feeds/luci/applications/luci-app-dockerman
@@ -256,13 +254,13 @@ popd
 
 # UPnP
 rm -rf feeds/{packages/net/miniupnpd,luci/applications/luci-app-upnp}
-git clone https://git.kejizero.online/zhao/miniupnpd feeds/packages/net/miniupnpd -b v2.3.7
-git clone https://git.kejizero.online/zhao/luci-app-upnp feeds/luci/applications/luci-app-upnp -b master
+cp -rf ../miniupnpd ./feeds/packages/net/miniupnpd
+cp -rf ../luci-app-upnp ./feeds/luci/applications/luci-app-upnp
 
 # opkg
 mkdir -p package/system/opkg/patches
-curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/opkg/0001-opkg-download-disable-hsts.patch > package/system/opkg/patches/0001-opkg-download-disable-hsts.patch
-curl -s https://raw.githubusercontent.com/oppen321/OpenWrt-Patch/refs/heads/kernel-6.6/opkg/0002-libopkg-opkg_install-copy-conffiles-to-the-system-co.patch > package/system/opkg/patches/0002-libopkg-opkg_install-copy-conffiles-to-the-system-co.patch
+patch -p1 < ../OpenWrt-Patch/opkg/0001-opkg-download-disable-hsts.patch
+patch -p1 < ../OpenWrt-Patch/opkg/0002-libopkg-opkg_install-copy-conffiles-to-the-system-co.patch
 
 # 加入作者信息
 sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='ZeroWrt-$(date +%Y%m%d)'/g"  package/base-files/files/etc/openwrt_release
