@@ -88,6 +88,9 @@ sed -i "s/192.168.1.1/10.0.0.1/g" package/base-files/files/bin/config_generate
 # 修改名称
 sed -i 's/OpenWrt/ZeroWrt/' package/base-files/files/bin/config_generate
 
+# banner
+cp -f package/openwrt-package/banner  package/base-files/files/etc/banner
+
 ### FW4 ###
 rm -rf ./package/network/config/firewall4
 cp -rf ../openwrt_main/package/network/config/firewall4 ./package/network/config/firewall4
