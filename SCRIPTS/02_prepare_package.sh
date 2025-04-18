@@ -233,8 +233,8 @@ ZLIB_HASH=38ef96b8dfe510d42707d9c781877914792541133e1870841463bfa73f883e32
 sed -ri "s/(PKG_VERSION:=)[^\"]*/\1$ZLIB_VERSION/;s/(PKG_HASH:=)[^\"]*/\1$ZLIB_HASH/" package/libs/zlib/Makefile
 
 # rootfs files
-mkdir -p files/etc/sysctl.d
-cp -rf ../OpenWrt-Patch/files/etc/sysctl.d ./files/etc/sysctl.d
+mkdir -p files
+cp -rf ../OpenWrt-Patch/files ./files
 
 # Docker
 rm -rf feeds/luci/applications/luci-app-dockerman
