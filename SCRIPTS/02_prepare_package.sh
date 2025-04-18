@@ -218,7 +218,7 @@ cp -rf ../curl ./feeds/packages/net/curl
 
 # odhcpd RFC-9096
 mkdir -p package/network/services/odhcpd/patches
-patch -p1 < ../OpenWrt-Patch/pkgs/odhcpd/001-odhcpd-RFC-9096-compliance-openwrt-24.10.patch
+cp -rf ../OpenWrt-Patch/pkgs/odhcpd/001-odhcpd-RFC-9096-compliance-openwrt-24.10.patch ./package/network/services/odhcpd/patches/001-odhcpd-RFC-9096-compliance.patch
 pushd feeds/luci
 patch -p1 < ../../../OpenWrt-Patch/pkgs/odhcpd/luci-mod-network-add-option-for-ipv6-max-plt-vlt.patch
 popd
@@ -233,7 +233,6 @@ ZLIB_HASH=38ef96b8dfe510d42707d9c781877914792541133e1870841463bfa73f883e32
 sed -ri "s/(PKG_VERSION:=)[^\"]*/\1$ZLIB_VERSION/;s/(PKG_HASH:=)[^\"]*/\1$ZLIB_HASH/" package/libs/zlib/Makefile
 
 # rootfs files
-mkdir -p files
 cp -rf ../OpenWrt-Patch/files ./files
 
 # Docker
@@ -259,8 +258,8 @@ cp -rf ../luci-app-upnp ./feeds/luci/applications/luci-app-upnp
 
 # opkg
 mkdir -p package/system/opkg/patches
-patch -p1 < ../OpenWrt-Patch/opkg/0001-opkg-download-disable-hsts.patch
-patch -p1 < ../OpenWrt-Patch/opkg/0002-libopkg-opkg_install-copy-conffiles-to-the-system-co.patch
+cp -rf ../OpenWrt-Patch/opkg/0001-opkg-download-disable-hsts.patch ./package/system/opkg/patches/0001-opkg-download-disable-hsts.patch
+cp -rf ../OpenWrt-Patch/opkg/0002-libopkg-opkg_install-copy-conffiles-to-the-system-co.patch ./package/system/opkg/patches/0002-libopkg-opkg_install-copy-conffiles-to-the-system-co.patch
 
 # 加入作者信息
 sed -i "s/DISTRIB_DESCRIPTION='*.*'/DISTRIB_DESCRIPTION='ZeroWrt-$(date +%Y%m%d)'/g"  package/base-files/files/etc/openwrt_release
