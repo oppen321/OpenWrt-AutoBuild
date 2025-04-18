@@ -31,6 +31,12 @@ docker_repo="https://git.kejizero.online/zhao/packages_utils_docker"
 dockerd_repo="https://git.kejizero.online/zhao/packages_utils_dockerd"
 containerd_repo="https://git.kejizero.online/zhao/packages_utils_containerd"
 runc_repo="https://git.kejizero.online/zhao/packages_utils_runc"
+fstools_repo="https://github.com/sbwml/package_system_fstools"
+util_linux_repo="https://github.com/sbwml/package_utils_util-linux"
+nghttp3_repo="https://github.com/sbwml/package_libs_nghttp3"
+ngtcp2_repo="https://github.com/sbwml/package_libs_ngtcp2"
+curl_repo="https://github.com/sbwml/feeds_packages_net_curl"
+urngd_repo="https://github.com/sbwml/package_system_urngd"
 
 # 开始克隆仓库，并行执行
 clone_repo $openwrt_repo $openwrt_release openwrt &
@@ -50,6 +56,12 @@ clone_repo $docker_repo main docker
 clone_repo $dockerd_repo main dockerd
 clone_repo $containerd_repo main containerd
 clone_repo $runc_repo main runc
+clone_repo $fstools_repo openwrt-24.10 fstools
+clone_repo $util_linux_repo openwrt-24.10 util_linux
+clone_repo $nghttp3 main nghttp3
+clone_repo $ngtcp2_repo main ngtcp2
+clone_repo $curl_repo main curl
+clone_repo $urngd_repo main urngd
 
 # 等待所有后台任务完成
 wait
