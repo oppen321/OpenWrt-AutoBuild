@@ -59,8 +59,8 @@ clone_repo $dockerd_repo main dockerd
 clone_repo $containerd_repo main containerd
 clone_repo $runc_repo main runc
 clone_repo $fstools_repo openwrt-24.10 fstools
-clone_repo $util_linux_repo openwrt-24.10 util_linux
-clone_repo $nghttp3 main nghttp3
+clone_repo $util_linux_repo openwrt-24.10 util-linux
+clone_repo $nghttp3_repo main nghttp3
 clone_repo $ngtcp2_repo main ngtcp2
 clone_repo $curl_repo main curl
 clone_repo $urngd_repo main urngd
