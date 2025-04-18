@@ -206,7 +206,7 @@ cp -rf ../util-linux ./package/utils/util-linux
 
 # nghttp3
 rm -rf feeds/packages/libs/nghttp3
-cp -rf ../nghttp3 ./package/libs/nghttp3
+cp -rf ../nghttp3 ./feeds/packages/libs/nghttp3
 
 # ngtcp2
 rm -rf feeds/packages/libs/ngtcp2
