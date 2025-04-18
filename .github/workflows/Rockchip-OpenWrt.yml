@@ -65,21 +65,21 @@ jobs:
       run: |
         cp -rf ../SCRIPTS/Rockchip/config.seed .config
         
-    - name: Convert Translation
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        /bin/bash 05_convert_translation.sh
+#    - name: Convert Translation
+#      working-directory: ${{ github.workspace }}/openwrt
+#      run: |
+#        /bin/bash 05_convert_translation.sh
         
-    - name: Add ACL
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        /bin/bash 06_create_acl_for_luci.sh -a
+#    - name: Add ACL
+#      working-directory: ${{ github.workspace }}/openwrt
+#      run: |
+#        /bin/bash 06_create_acl_for_luci.sh -a
         
-    - name: Fix Permissions
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        sudo -E chmod -R 755 ./07_fix_permissions.sh
-        /bin/bash 07_fix_permissions.sh
+#    - name: Fix Permissions
+#      working-directory: ${{ github.workspace }}/openwrt
+#      run: |
+#        sudo -E chmod -R 755 ./07_fix_permissions.sh
+#        /bin/bash 07_fix_permissions.sh
         
     - name: Make Config
       working-directory: ${{ github.workspace }}/openwrt
