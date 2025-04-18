@@ -58,7 +58,7 @@ jobs:
         cp -r ../SCRIPTS/. ./
         /bin/bash 02_prepare_package.sh
         /bin/bash 03_custom_settings_rk.sh
-        /bin/bash 04_remove_upx.sh
+#        /bin/bash 04_remove_upx.sh
         
     - name: QTMDFW4
       working-directory: ${{ github.workspace }}/openwrt
