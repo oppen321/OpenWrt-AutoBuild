@@ -155,9 +155,9 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: ./artifact/*
         body: |
-          **This is OpenWrt Firmware for Rockchip**
+          **This is OpenWrt Firmware**
           ### 📒 固件信息
-          - 💻 平台架构: rockchip-armv8 (rk33xx, rk35xx)
+          - 💻 平台架构: rockchip-armv8、x86
           - ⚽ 固件源码: https://github.com/openwrt/openwrt
           - 💝 源码分支: ${{ env.latest_release }}
           - 🚀 内核版本: ${{ env.KERNEL }}
