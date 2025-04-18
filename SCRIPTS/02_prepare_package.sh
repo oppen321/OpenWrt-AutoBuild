@@ -237,6 +237,7 @@ sed -ri "s/(PKG_VERSION:=)[^\"]*/\1$ZLIB_VERSION/;s/(PKG_HASH:=)[^\"]*/\1$ZLIB_H
 
 # rootfs files
 cp -rf ../OpenWrt-Patch/files ./files
+cp -rf ../OpenWrt-Patch/pkgs/nikki/nikki.conf ./package/helloworld/nikki/files/nikki.conf
 
 # Docker
 rm -rf feeds/luci/applications/luci-app-dockerman
