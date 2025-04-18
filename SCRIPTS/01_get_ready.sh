@@ -52,6 +52,8 @@ clone_repo $golang_repo 24.x golang
 clone_repo $nginx_repo openwrt-24.10 nginx
 clone_repo $node_repo packages-24.10 node
 clone_repo $default_settings openwrt-24.10 default_settings
+clone_repo $miniupnpd_repo v2.3.7 miniupnpd
+clone_repo $upnp_repo master luci-app-upnp
 clone_repo $docker_repo main docker
 clone_repo $dockerd_repo main dockerd
 clone_repo $containerd_repo main containerd
