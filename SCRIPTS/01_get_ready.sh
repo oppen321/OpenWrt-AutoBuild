@@ -37,6 +37,8 @@ nghttp3_repo="https://github.com/sbwml/package_libs_nghttp3"
 ngtcp2_repo="https://github.com/sbwml/package_libs_ngtcp2"
 curl_repo="https://github.com/sbwml/feeds_packages_net_curl"
 urngd_repo="https://github.com/sbwml/package_system_urngd"
+samba4_repo="https://github.com/sbwml/feeds_packages_net_samba4"
+liburing_repo="https://github.com/sbwml/feeds_packages_libs_liburing"
 
 # 开始克隆仓库，并行执行
 clone_repo $openwrt_repo $openwrt_release openwrt &
@@ -64,6 +66,8 @@ clone_repo $nghttp3_repo main nghttp3
 clone_repo $ngtcp2_repo main ngtcp2
 clone_repo $curl_repo main curl
 clone_repo $urngd_repo main urngd
+clone_repo $samba4_repo main samba4
+clone_repo $liburing_repo main liburing
 
 # 等待所有后台任务完成
 wait
