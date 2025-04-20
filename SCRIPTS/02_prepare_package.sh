@@ -178,7 +178,7 @@ cp -rf ../openwrt-package ./package
 cp -rf ../helloworld ./package
 rm -rf feeds/packages/utils/coremark
 rm -rf feeds/luci/applications/luci-app-alist
-rm -rf feeds/packages/net/{alist,adguardhome,zerotier,xray-core,v2ray-core,v2ray-geodata,sing-box,sms-tool}
+rm -rf feeds/packages/net/{alist,zerotier,xray-core,v2ray-core,v2ray-geodata,sing-box,sms-tool}
 
 # 更换 golang 版本
 rm -rf feeds/packages/lang/golang
