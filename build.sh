@@ -545,7 +545,7 @@ if [[ "$type" == "x86_64" || "$type" == "rockchip" ]]; then
     fi
     chmod 0755 *sh
 elif [[ "$type" == "mediatek_mt7981" || "$type" == "mediatek_mt7986" ]]; then
-    curl -sO $mirror/openwrt/scripts/01-convert_translation.sh
+    curl -sO $mirror/openwrt/scripts/mediatek/00-custom_settings_mediatek.sh
 fi
 
 # 执行准备脚本
@@ -566,9 +566,8 @@ if [[ "$type" == "x86_64" || "$type" == "rockchip" ]]; then
     fi
     bash 03-convert_translation.sh
 elif [[ "$type" == "mediatek_mt7981" || "$type" == "mediatek_mt7986" ]]; then
-    bash 00-
+    bash 00-custom_settings_mediatek.sh
 fi
-
 
 # 清理脚本文件
 clear
@@ -592,9 +591,9 @@ if [[ "$type" == "x86_64" ]]; then
 elif [[ "$type" == "rockchip" ]]; then
     curl -s "$mirror/openwrt/scripts/rockchip/24-config-musl-rockchip" > .config
 elif [[ "$type" == "mediatek_mt7981" ]]; then
-    curl -s "$mirror/openwrt/scripts/rockchip/24-config-musl-mediatek_mt7981" > .config
+    curl -s "$mirror/openwrt/scripts/mediatek/24-config-musl-mediatek-mt7981" > .config
 elif [[ "$type" == "mediatek_mt7986" ]]; then
-    curl -s "$mirror/openwrt/scripts/rockchip/24-config-musl-mediatek_mt7986" > .config
+    curl -s "$mirror/openwrt/scripts/mediatek/24-config-musl-mediatek-mt7986" > .config
 fi
 
 
