@@ -543,10 +543,10 @@ if [[ "$type" == "x86_64" || "$type" == "rockchip" ]]; then
     elif [ "$type" = "rockchip" ]; then
         curl -sO $mirror/openwrt/scripts/rockchip/02-custom_settings_rk.sh
     fi
-    chmod 0755 *sh
 elif [[ "$type" == "mediatek_mt7981" || "$type" == "mediatek_mt7986" ]]; then
     curl -sO $mirror/openwrt/scripts/mediatek/00-custom_settings_mediatek.sh
 fi
+chmod 0755 *sh
 
 # 执行准备脚本
 clear
