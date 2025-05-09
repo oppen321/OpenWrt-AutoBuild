@@ -564,10 +564,10 @@ if [[ "$type" == "x86_64" || "$type" == "rockchip" ]]; then
     elif [ "$type" = "rockchip" ]; then
         bash 02-custom_settings_rk.sh
     fi
-    bash 03-convert_translation.sh
 elif [[ "$type" == "mediatek_mt7981" || "$type" == "mediatek_mt7986" ]]; then
     bash 00-custom_settings_mediatek.sh
 fi
+bash 03-convert_translation.sh
 
 # 清理脚本文件
 clear
