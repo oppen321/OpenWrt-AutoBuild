@@ -537,7 +537,6 @@ if [[ "$type" == "x86_64" || "$type" == "rockchip" ]]; then
     clear
     curl -sO $mirror/openwrt/scripts/00-prepare_base.sh
     curl -sO $mirror/openwrt/scripts/01-prepare_package.sh
-    curl -sO $mirror/openwrt/scripts/03-convert_translation.sh
     if [ "$type" = "x86_64" ]; then
         curl -sO $mirror/openwrt/scripts/x86_64/02-custom_settings_x86.sh
     elif [ "$type" = "rockchip" ]; then
@@ -546,6 +545,7 @@ if [[ "$type" == "x86_64" || "$type" == "rockchip" ]]; then
 elif [[ "$type" == "mediatek_mt7981" || "$type" == "mediatek_mt7986" ]]; then
     curl -sO $mirror/openwrt/scripts/mediatek/00-custom_settings_mediatek.sh
 fi
+curl -sO $mirror/openwrt/scripts/03-convert_translation.sh
 chmod 0755 *sh
 
 # 执行准备脚本
