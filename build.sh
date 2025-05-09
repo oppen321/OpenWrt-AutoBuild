@@ -598,10 +598,15 @@ fi
 
 
 # Toolchain Cache
+TOOLCHAIN_URL=https://github.com/oppen321/openwrt_caches/releases/download/OpenWrt_Toolchain_Cache
 if [ "$BUILD_FAST" = "y" ]; then
-    echo -e "\n${GREEN_COLOR}Download Toolchain ...${RES}"
-    TOOLCHAIN_URL=https://github.com/oppen321/openwrt_caches/releases/download/OpenWrt_Toolchain_Cache
-    curl -L -k ${TOOLCHAIN_URL}/toolchain_gcc13_$type.tar.zst -o toolchain.tar.zst $CURL_BAR
+    if [ "$type" = "rockchip" ] || [ "$type" = "x86_64" ]; then
+        echo -e "\n${GREEN_COLOR}Download Toolchain GCC13...${RES}"
+        curl -L -k ${TOOLCHAIN_URL}/toolchain_gcc13_${type}.tar.zst -o toolchain.tar.zst $CURL_BAR
+    elif [[ "$type" == "mediatek_mt7981" || "$type" == "mediatek_mt7986" ]]; then
+        echo -e "\n${GREEN_COLOR}Download Toolchain GCC13...${RES}"
+        curl -L -k ${TOOLCHAIN_URL}/toolchain_gcc13_mediatek.tar.zst -o toolchain.tar.zst $CURL_BAR
+    fi
     echo -e "\n${GREEN_COLOR}Process Toolchain ...${RES}"
     tar -I "zstd" -xf toolchain.tar.zst
     rm -f toolchain.tar.zst
